@@ -1,6 +1,6 @@
 import React from "react";
 import { Path, Group as SkiaGroup } from "@shopify/react-native-skia";
-import { Group } from "@/graph/group";
+import { Group } from "@/src/graph/group";
 import {
   Arc as ArcType,
   PieArcDatum as PieArcDatumType,

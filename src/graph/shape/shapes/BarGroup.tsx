@@ -1,6 +1,6 @@
 import React from "react";
-import { Group } from "@/graph/group";
-import { ScaleInput } from "@/graph/scale";
+import { Group } from "@/src/graph/group";
+import { ScaleInput } from "@/src/graph/scale";
 import Bar from "./Bar";
 import {
   PositionScale,

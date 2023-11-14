@@ -1,6 +1,6 @@
 import React from "react";
 import { Path } from "@shopify/react-native-skia";
-import { Group } from "@/graph/group";
+import { Group } from "@/src/graph/group";
 import {
   Area as AreaType,
   Stack as StackType,

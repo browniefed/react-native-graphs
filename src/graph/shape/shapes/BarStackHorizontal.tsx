@@ -1,11 +1,11 @@
 import React from "react";
+
 import { stack as d3stack, SeriesPoint } from "d3-shape";
-import { Group } from "@/graph/group";
-import { ScaleInput } from "@/graph/scale";
+import { Group } from "@/src/graph/group";
+import { ScaleInput } from "@/src/graph/scale";
 import {
-  PositionScale,
   AddSVGProps,
-  BarStack as BarStackType,
+  PositionScale,
   BaseBarStackProps,
   StackKey,
   Accessor,
@@ -17,21 +17,21 @@ import stackOrder from "../util/stackOrder";
 import stackOffset from "../util/stackOffset";
 import Bar from "./Bar";
 
-export type BarStackProps<
+export type BarStackHorizontalProps<
   Datum,
   Key extends StackKey = StackKey,
   XScale extends PositionScale = PositionScale,
   YScale extends PositionScale = PositionScale,
 > = BaseBarStackProps<Datum, Key, XScale, YScale> & {
-  /** Returns the value mapped to the x of a bar. */
-  x: Accessor<Datum, ScaleInput<XScale>>;
-  /** Returns the value mapped to the y0 of a bar. */
-  y0?: Accessor<SeriesPoint<Datum>, ScaleInput<YScale>>;
-  /** Returns the value mapped to the y1 of a bar. */
-  y1?: Accessor<SeriesPoint<Datum>, ScaleInput<YScale>>;
+  /** Returns the value mapped to the x0 of a bar. */
+  x0?: Accessor<SeriesPoint<Datum>, ScaleInput<XScale>>;
+  /** Returns the value mapped to the x1 of a bar. */
+  x1?: Accessor<SeriesPoint<Datum>, ScaleInput<XScale>>;
+  /** Returns the value mapped to the y of a bar. */
+  y: Accessor<Datum, ScaleInput<YScale>>;
 };
 
-export default function BarStack<
+export default function BarStackHorizontal<
   Datum,
   Key extends StackKey = StackKey,
   XScale extends PositionScale = PositionScale,
@@ -41,9 +41,9 @@ export default function BarStack<
 
   top,
   left,
-  x,
-  y0 = getFirstItem,
-  y1 = getSecondItem,
+  y,
+  x0 = getFirstItem,
+  x1 = getSecondItem,
   xScale,
   yScale,
   color,
@@ -53,7 +53,10 @@ export default function BarStack<
   offset,
   children,
   ...restProps
-}: AddSVGProps<BarStackProps<Datum, Key, XScale, YScale>, SVGRectElement>) {
+}: AddSVGProps<
+  BarStackHorizontalProps<Datum, Key, XScale, YScale>,
+  SVGRectElement
+>) {
   const stack = d3stack<Datum, Key>();
   if (keys) stack.keys(keys);
   if (value) setNumOrAccessor(stack.value, value);
@@ -61,21 +64,20 @@ export default function BarStack<
   if (offset) stack.offset(stackOffset(offset));
 
   const stacks = stack(data);
-  const barWidth = getBandwidth(xScale);
+  const barHeight = getBandwidth(yScale);
 
-  const barStacks: BarStackType<Datum, Key>[] = stacks.map((barStack, i) => {
+  const barStacks = stacks.map((barStack, i) => {
     const { key } = barStack;
     return {
       index: i,
       key,
       bars: barStack.map((bar, j) => {
-        const barHeight = (yScale(y0(bar)) || 0) - (yScale(y1(bar)) || 0);
-        const barY = yScale(y1(bar));
-        const barX =
-          "bandwidth" in xScale
-            ? xScale(x(bar.data))
-            : Math.max((xScale(x(bar.data)) || 0) - barWidth / 2);
-
+        const barWidth = (xScale(x1(bar)) || 0) - (xScale(x0(bar)) || 0);
+        const barX = xScale(x0(bar));
+        const barY =
+          "bandwidth" in yScale
+            ? yScale(y(bar.data))
+            : Math.max((yScale(y(bar.data)) || 0) - barWidth / 2);
         return {
           bar,
           key,

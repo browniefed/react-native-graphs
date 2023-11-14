@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Dimensions } from "react-native";
-import { Canvas, Circle, Group } from "@shopify/react-native-skia";
-import BarsExample from "./graphs/bars";
+import { Canvas } from "@shopify/react-native-skia";
+import BarsExample from "@/examples/graphs/bars";
 
 export default function App() {
   const dimensions = Dimensions.get("window");

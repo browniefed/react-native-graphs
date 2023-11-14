@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import { Bar } from "@/graph/shape";
-import { Group } from "@/graph/group";
+import { Bar } from "@/src/graph/shape";
+import { Group } from "@/src/graph/group";
 import letterFrequency, {
   LetterFrequency,
 } from "@visx/mock-data/lib/mocks/letterFrequency";
-import { scaleBand, scaleLinear } from "@/graph/scale";
+import { scaleBand, scaleLinear } from "@/src/graph/scale";
 
 const data = letterFrequency.slice(5);
 const verticalMargin = 120;
