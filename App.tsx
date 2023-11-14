@@ -1,12 +1,20 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
+import { Canvas, Circle, Group } from "@shopify/react-native-skia";
+import BarsExample from "./graphs/bars";
 
 export default function App() {
+  const dimensions = Dimensions.get("window");
+
+  const width = dimensions.width;
+  const height = dimensions.height;
+  const r = width * 0.33;
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Canvas style={{ width, height }}>
+        <BarsExample width={width} height={height} />
+      </Canvas>
     </View>
   );
 }
@@ -14,8 +22,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

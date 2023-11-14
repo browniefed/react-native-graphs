@@ -3,7 +3,9 @@
     "name": "graphs",
     "slug": "graphs",
     "version": "1.0.0",
-
+    "experiments": {
+      "tsconfigPaths": true
+    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
